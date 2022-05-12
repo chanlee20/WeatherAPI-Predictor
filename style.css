@@ -1,0 +1,98 @@
+h3{
+  font-family: 'Grape Nuts', cursive;
+  font-size: 50px;
+  color: white;
+  text-align: center;
+}
+
+.newcity{
+text-align: center;
+}
+
+#search{
+  border-radius: 10px;
+  text-decoration: none;
+  border: 1px solid white;
+  margin-left: 20px;
+}
+
+li{
+  width: 100%;
+  text-align: center;
+  list-style-type: none;
+  font-family: 'Anek Tamil', sans-serif;
+  background-color: #dadafd;
+  height: 40px;
+  padding-top: 20px;
+  border: 1px solid white;
+}
+
+body {
+  background: linear-gradient(to right, #ababf2, white);
+}
+
+td, th{
+border: 1px solid white;
+color: black;
+font-family: 'Anek Tamil', sans-serif;
+padding: 20px;
+}
+
+#output{
+  font-family: 'Anek Tamil', sans-serif;
+
+}
+
+.p_containers{
+position: absolute;
+right: 285px;
+text-align: center;
+padding-bottom: 100px;
+}
+
+
+.ctof{
+position: absolute;
+top: 120px;
+}
+
+img{
+margin: 0;
+position: absolute;
+top: 85%;
+left: 51%;
+height: 50px;
+transform: translate(-50%, -50%);
+}
+
+@media (min-width: 399px)and (max-width: 768px) {
+#output{
+  width: 10%;
+  margin: 1px;
+}
+#result{
+  position: absolute;
+  height: 100%;
+  width: 87%;
+}
+img{
+ 
+  top: 420px;
+}
+th, td{
+  position: relative;
+  top: 520px;
+  right: -240px;
+  font-size: 10px;
+
+}
+.p_containers{
+  padding-bottom: 100px;
+}
+
+#labeling{
+  font-family: 'Anek Tamil', sans-serif;
+}
+
+
+}

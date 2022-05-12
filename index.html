@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FP</title>
+    <link rel="stylesheet" type = "text/css" href="style.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Grape+Nuts&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <div class = "title">
+        <h3> Weather Forecast </h3>
+    </div>
+
+    <div class = "newcity">
+        <form> 
+            <input type = "text" placeholder = "Search for a city..." id = "city">
+            <button class = "sub-btn" id = "search"> Search </button>
+        </form>
+    </div>
+
+    <div class = "event-container" id = "result">
+        <ul class = "ps" id = "ps">
+
+        </ul>
+    </div>
+
+    <div class = "past" id = "past_days">
+        <p id = "labeling"> Past 7 Days: <br> </p>
+        <table class = "p_containers">
+            <tr id = "ct">
+
+            </tr>
+            <tr id = "tds">
+
+            </tr>
+            <tr id = "tds2">
+
+            </tr>
+        </table>
+    </div>
+
+    <div class = "ctof" id = "calculator">
+        Celsius to Fahrenheit: <input type = "text" name = "val" id = "cel">
+        <p id = "output"> Result </p>
+    </div>
+
+
+    <script>
+
+        let today = new Date();
+        function calculate() {
+            let val = parseFloat(document.getElementById("cel").value);
+            let output = Math.round((1.8*val + 32) * 100)/100;
+            document.getElementById("output").textContent = output + "F";
+        }
+        document.getElementById("cel").addEventListener("change", calculate, false);
+
+
+        document.getElementById("search").addEventListener("click", searchCity);
+        
+        const key = "0daff91ed32167068c9e5f922a6db401";
+    function searchCity() {
+            event.preventDefault();
+            $('#ps').html('');
+            let cityname = document.getElementById("city").value;
+            let url = "https://api.weatherapi.com/v1/current.json?key=5e4671e35a864103bd1224834221404&q="+ cityname + "&aqi=no";
+            var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    $('#ps').append("<li id = cn> City: " + data.location.name + " </li>");
+                    $('#ps').append("<li id = tempc> Temperature: " + data.current.temp_c + "C </li>");
+                    $('#ps').append("<li id = cond> Condition: " + data.current.condition.text + "</li>");
+                    $('#ps').append("<li id = wind_mph> Wind Speed: " + data.current.wind_mph + " mph </li>");
+                    $('#ps').append("<li id = wind_dir> Wind Direction: " + data.current.wind_dir + " </li>");
+                    $('#ps').append("<li id = hum> Humidity: " + data.current.humidity + " </li>");
+                    $('#ps').append("<li> <img src = " + data.current.condition.icon + "></li>");
+                    $('#city').value = "";
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.setRequestHeader("x-api-key", key);
+            xhttp.send();
+
+            for(let i = 1; i < 7; i++){
+                pastCity(cityname, i);
+            }
+        }
+
+        function pastCity(cityname, i) {
+            // event.preventDefault();
+            
+            today.setDate(today.getDate()-1);
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+            var yyyy = today.getFullYear();
+            let d = yyyy + "-" + mm + "-" + dd;
+            console.log(d);
+            let url = "https://api.weatherapi.com/v1/history.json?key=5e4671e35a864103bd1224834221404&q="+ cityname + "&dt=" + d;
+            var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    $('#ct').append("<th id = " + i + ">" + d + "</th>");
+                    $('#tds').append("<td> Avg Temp: " + data.forecast.forecastday[0].day.avgtemp_c + " </td>");
+                    $('#tds2').append("<td> Avg Humidity: " + data.forecast.forecastday[0].day.avghumidity + " </td>");
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.setRequestHeader("x-api-key", key);
+            xhttp.send();
+            // sortDate();
+        }
+
+        // function sortDate() {
+        //     const sa  = [];
+        //     let j = 0;
+            
+        //     for(let i = 1; i < 7; i++){
+        //         sa[j] = document.getElementById(i).value;
+        //         j++;
+        //     }
+
+        //     for(k = 0; k < 7; k++){
+        //         sa.sortDate();
+        //     }
+
+        //     console.log(sa);
+
+        // }
+    </script>
+</body>
+</html>
